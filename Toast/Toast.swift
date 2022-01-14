@@ -315,6 +315,13 @@ public extension UIView {
         activityView.backgroundColor = style.activityBackgroundColor
         activityView.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin, .flexibleBottomMargin]
         activityView.layer.cornerRadius = style.cornerRadius
+        if style.cornerStyle == .checkIn{
+            if #available(iOS 11.0, *) {
+                activityView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner, .layerMinXMaxYCorner]
+            } else {
+                // Fallback on earlier versions
+            }
+        }
         
         if style.displayShadow {
             activityView.layer.shadowColor = style.shadowColor.cgColor
@@ -425,7 +432,13 @@ public extension UIView {
         wrapperView.backgroundColor = style.backgroundColor
         wrapperView.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin, .flexibleBottomMargin]
         wrapperView.layer.cornerRadius = style.cornerRadius
-        
+        if style.cornerStyle == .checkIn{
+            if #available(iOS 11.0, *) {
+                wrapperView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner, .layerMinXMaxYCorner]
+            } else {
+                // Fallback on earlier versions
+            }
+        }
         if style.displayShadow {
             wrapperView.layer.shadowColor = UIColor.black.cgColor
             wrapperView.layer.shadowOpacity = style.shadowOpacity
@@ -596,6 +609,16 @@ public struct ToastStyle {
      and `safeAreaInsets.bottom`.
     */
     public var verticalPadding: CGFloat = 10.0
+    
+    public enum CornerStyle{
+        case regular
+        case checkIn
+    }
+    
+    /**
+     The corner Style.
+    */
+    public var cornerStyle = CornerStyle.checkIn
     
     /**
      The corner radius. Default is 10.0.
