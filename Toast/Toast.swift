@@ -330,11 +330,21 @@ public extension UIView {
             activityView.layer.shadowOffset = style.shadowOffset
         }
         
-        let activityIndicatorView = UIActivityIndicatorView(style: .white)
-        activityIndicatorView.center = CGPoint(x: activityView.bounds.size.width / 2.0, y: activityView.bounds.size.height / 2.0)
-        activityView.addSubview(activityIndicatorView)
-        activityIndicatorView.color = style.activityIndicatorColor
-        activityIndicatorView.startAnimating()
+        if #available(iOS 13.0, *) {
+            let activityIndicatorView = UIActivityIndicatorView(style: .medium)
+            activityIndicatorView.center = CGPoint(x: activityView.bounds.size.width / 2.0, y: activityView.bounds.size.height / 2.0)
+            activityView.addSubview(activityIndicatorView)
+            activityIndicatorView.color = style.activityIndicatorColor
+            activityIndicatorView.startAnimating()
+        } else {
+            // Fallback on earlier versions
+            let activityIndicatorView = UIActivityIndicatorView(style: .white)
+            activityIndicatorView.center = CGPoint(x: activityView.bounds.size.width / 2.0, y: activityView.bounds.size.height / 2.0)
+            activityView.addSubview(activityIndicatorView)
+            activityIndicatorView.color = style.activityIndicatorColor
+            activityIndicatorView.startAnimating()
+        }
+        
         
         return activityView
     }
